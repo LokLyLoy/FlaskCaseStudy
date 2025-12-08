@@ -1,0 +1,113 @@
+{% extends "/layout/layout.html" %}
+
+{% block style %}
+	<link rel="stylesheet" href="../../static/styles/homepage.css">
+{% endblock %}
+
+{% block content %}
+	<main>
+        <div class="hero-banner">
+            <img src="../../static/images/banner.png" alt="banner" class="hero-img">
+
+            <div class="hero-text">
+                <h1>Welcome to Ly's E-Commerce</h1>
+                <p>Shop the latest products with exclusive deals</p>
+
+                <a href="#" class="next-btn">
+                    <span class="shop-btn">Shop Now</span>
+
+                    <div class="icon-circle">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 42 42">
+                            <path fill="currentColor" fill-rule="evenodd"
+                                d="M13.933 1L34 21.068L14.431 40.637l-4.933-4.933l14.638-14.636L9 5.933z"></path>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2>Browse by Categories</h2>
+            <div class="category-buttons">
+                <a href="/category" class="category-btn">Men</a>
+                <a href="/category" class="category-btn">Women</a>
+                <a href="/category" class="category-btn">Children</a>
+            </div>
+        </div>
+
+        <div class="category-section">
+            <div class="category-item">
+                <img src="../../static/images/men.jpg" alt="men">
+                <button class="category-btn-img">Men</button>
+            </div>
+            <div class="category-item">
+                <img src="../../static/images/women.jpg" alt="women">
+                <button class="category-btn-img">Women</button>
+            </div>
+            <div class="category-item">
+                <img src="../../static/images/children.jpg" alt="children">
+                <button class="category-btn-img">Children</button>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <h2>Products List</h2>
+            <div class="product-grid">
+                {% for product in products %}
+                <div class="product-card">
+
+                    <!-- Product Image -->
+                    <div class="product-img-box">
+                        <img src="{{ product.image }}" alt="{{ product.name }}">
+                    </div>
+
+                    <!-- Info -->
+                    <h3 class="product-name">{{ product.name }}</h3>
+                    <p class="product-category">{{ product.category }}</p>
+                    <p class="product-description">{{ product.description }}</p>
+
+                    <div class="price-row">
+                        <span class="price">${{ product.price }}</span>
+
+                        <div class="qty-box">
+                            <button class="qty-btn minus">−</button>
+                                <input type="number" class="qty-input" min="1" value="1">
+                            <button class="qty-btn plus">+</button>
+                        </div>
+                    </div>
+
+                    <button class="add-btn">
+                        <svg width="22px" height="22px">
+                            <use href="/static/svg/sprite.svg#cart-icon"></use>
+                        </svg>
+                        ADD TO CART
+                    </button>
+
+                </div>
+                {% endfor %}
+            </div>
+
+
+        </div>
+
+    </main>
+
+    <script>
+        document.querySelectorAll(".product-card").forEach(card => {
+            const minus = card.querySelector(".minus");
+            const plus = card.querySelector(".plus");
+            const input = card.querySelector(".qty-input");
+
+            minus.addEventListener("click", () => {
+                let val = parseInt(input.value);
+                if (val > 1) input.value = val - 1;
+            });
+
+            plus.addEventListener("click", () => {
+                let val = parseInt(input.value);
+                input.value = val + 1;
+            });
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,184 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "MyFont", sans-serif;
+    padding: 30px;
+    width: 80%;
+    margin: 20px auto 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    gap: 20px;
+}
+
+.container-left{
+    width: 50%;
+    padding: 3%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    border-radius: 15px;
+}
+
+.floating-form {
+    border-radius: 12px;
+    width: 100%;
+}
+
+.float-group {
+  position: relative;
+  margin-bottom: 25px;
+}
+
+.float-group input {
+    width: 100%;
+    padding: 14px 12px;
+    border: 1px solid #ccc;
+    border-radius: 50px;
+    outline: none;
+    font-size: 14px;
+    background: transparent;
+    resize: none;
+}
+
+.float-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  background: #fff;
+  padding: 0 4px;
+  color: #888;
+  font-size: 14px;
+  pointer-events: none;
+  transition: 0.3s ease all;
+}
+
+.float-group input:focus + label,
+.float-group input:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 8px;
+    font-size: 12px;
+    color: #007BFF;
+}
+
+.normal-group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: 14px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    outline: none;
+    background: #fefefe;
+}
+
+textarea {
+    height: 115px;
+    max-height: 115px;
+    resize: none;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 12px;
+    background: #007BFF;
+    color: #fff;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s ease background;
+    gap: 10px;
+}
+
+.submit-btn:hover {
+    background: #0056b3;
+}
+
+.submit-btn svg{
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: white;
+}
+
+.container-right h2{
+    color: #3B82F6;
+    margin-bottom: 20px;
+}
+
+.container-right h1{
+    margin-bottom: 30px;
+}
+
+.container-right p{
+    line-height: 1.6;
+    padding: 10px;
+}
+
+.container-right{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.card-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin: 15px auto 0;
+}
+
+.card {
+    width: 260px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: 0.25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.cart-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f2f0ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.cart-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #7b4eff;
+}
+
+.card h3 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+
+.card span {
+    font-size: 15px;
+    color: #555;
+}

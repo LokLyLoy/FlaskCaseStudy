@@ -1,0 +1,67 @@
+{% extends "/layout/layout.html" %}
+
+{% block style %}
+	<link rel="stylesheet" href="../../static/styles/contactpage.css">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+         <div class="container-left">
+             <form class="floating-form" method="POST" action="/contact-submit">
+
+                  <div class="float-group">
+                    <input type="text" id="first_name" name="firstname" placeholder=" " required autocomplete="off">
+                    <label for="first_name">First Name</label>
+                  </div>
+
+                  <div class="float-group">
+                    <input type="text" id="last_name" name="lastname" placeholder=" " required autocomplete="off">
+                    <label for="last_name">Last Name</label>
+                  </div>
+
+                  <div class="float-group">
+                    <input type="email" id="email" name="email" placeholder=" " required autocomplete="off">
+                    <label for="email">Email</label>
+                  </div>
+
+                  <div class="normal-group">
+                      <label for="message">How can we help you?</label>
+                      <textarea name="message" id="message" rows="4" placeholder="Message" required></textarea>
+                  </div>
+
+                  <button type="submit" class="submit-btn">Send Message <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 16"><path d="M12.49 7.14L3.44 2.27c-.76-.41-1.64.3-1.4 1.13l1.24 4.34c.05.18.05.36 0 .54l-1.24 4.34c-.24.83.64 1.54 1.4 1.13l9.05-4.87a.98.98 0 0 0 0-1.72Z"/></svg></button>
+
+            </form>
+         </div>
+
+        <div class="container-right">
+            <h2>Get in touch with us</h2>
+            <p>
+                We’re here to help! Whether you have questions about our products, need assistance with your order, or want more information about our services, our team is ready to support you. Reach out to us anytime we aim to respond as quickly as possible.
+            </p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="cart-icon">
+                        <svg width="20px" height="20px" fill="white">
+                            <use href="/static/svg/sprite.svg#mail-icon"></use>
+                        </svg>
+                    </div>
+                    <h3>Contact Us</h3>
+                    <span>ngorpavly@gmail.com</span>
+                </div>
+                <div class="card">
+                    <div class="cart-icon">
+                        <svg>
+                            <use href="/static/svg/sprite.svg#phone-icon"></use>
+                        </svg>
+                    </div>
+                    <h3>Phone Number</h3>
+                    <span>+855 123 456 789</span>
+                </div>
+            </div>
+
+            <p>Available Monday-Friday 7am-7pm</p>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Case Study</title>
+    <link rel="stylesheet" href="../../static/styles/layout.css">
+    <link rel="icon" href="../../static/images/Logo.jpg">
+
+    {% block style %}  {% endblock %}
+
+</head>
+<header>
+    <div class="topbar">
+        <div class="logo">
+            <h2>Ly's E-Commerce</h2>
+        </div>
+
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">
+                    Home
+                    <span class="underline"></span>
+                </a>
+
+                <a href="/about" class="nav-link {% if request.path == '/about' %}active{% endif %}">
+                    About
+                    <span class="underline"></span>
+                </a>
+
+                <a href="/contact" class="nav-link {% if request.path == '/contact' %}active{% endif %}">
+                    Contact
+                    <span class="underline"></span>
+                </a>
+            </div>
+        </nav>
+
+
+        <div class="right" id="user-area">
+             {% if user %}
+                <div class="profile">
+                    <div class="avatar-wrapper" id="profile">
+                        <img src="/static/avatars/{{ user.avatar }}" alt="Avatar" class="avatar" />
+                    </div>
+                    <span class="username">{{ user.username }}</span>
+                </div>
+
+                 <button id="logoutBtn" class="logout-btn">Logout</button>
+
+            {% else %}
+                <div class="register">
+                    <a href="/register">Register</a>
+                </div>
+                <button class="login" id="login">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="#ffffff" d="M3 11h9.586l-3.5-3.5L10.5 6.086L16.414 12L10.5 17.914L9.086 16.5l3.5-3.5H3v-2Zm11 8.5h5v-15h-5v-2h7v19h-7v-2Z"/>
+                    </svg>
+                    Log In
+                </button>
+            {% endif %}
+        </div>
+    </div>
+</header>
+
+<body>
+    {% block content %} {% endblock %}
+</body>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-left">
+            <h3>Ly's E-Commerce</h3>
+            <p>© <span id="year"></span> Ngor Pavly. All rights reserved.</p>
+        </div>
+
+        <div class="footer-right">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="/contact">Contact</a>
+        </div>
+    </div>
+</footer>
+
+</html>
+
+<script>
+    const profileClick = document.getElementById("profile");
+    if (profileClick) {
+        profileClick.addEventListener("click", () => {
+            window.location.href = "/dashboard";
+        });
+    }
+
+    const currentYear = new Date().getFullYear();
+    document.getElementById("year").textContent = currentYear;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const currentPath = window.location.pathname;
+        const navLinks = document.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+            if (link.getAttribute('href') === currentPath) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    const loginBtn = document.getElementById("login");
+    if (loginBtn) {
+        loginBtn.addEventListener("click", () => {
+            window.location.href = "/login";
+        });
+    }
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+        logoutBtn.addEventListener("click", async function () {
+            try {
+                const res = await fetch("/logout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" }
+                });
+
+                const result = await res.json();
+
+                if (res.ok) {
+                    window.location.href = "/";
+                } else {
+                    alert(result.error || "Logout failed");
+                }
+            } catch (error) {
+                alert("Network error");
+            }
+        });
+    }
+
+</script>

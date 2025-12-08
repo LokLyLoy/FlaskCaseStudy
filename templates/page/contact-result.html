@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Form Result</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; }
+.result-box {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+.result-box h2 { text-align: center; }
+.result-box p { margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<div class="result-box">
+    <h2>Form Submitted!</h2>
+    <p><strong>First Name:</strong> {{ firstname }}</p>
+    <p><strong>Last Name:</strong> {{ lastname }}</p>
+    <p><strong>Email:</strong> {{ email }}</p>
+    <p><strong>Message:</strong> {{ message }}</p>
+</div>
+
+</body>
+</html>

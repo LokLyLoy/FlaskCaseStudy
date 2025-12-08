@@ -1,0 +1,362 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: "MyFont", sans-serif;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 40px;
+    max-width: 1400px;
+    margin: auto;
+}
+
+.logo h2 {
+    font-weight: 700;
+    font-size: 1.6rem;
+    font-variation-settings: "wght" 700;
+    background: linear-gradient(135deg, #000 0%, #333 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* NAVBAR */
+.navbar {
+    background: #fff;
+    padding: 8px 14px;
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+}
+
+/* Flex wrapper */
+.nav-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Each link */
+.nav-link {
+    position: relative;
+    padding: 10px 18px;
+    color: #444;
+    font-size: 15px;
+    text-decoration: none;
+    font-weight: 400;
+    border-radius: 12px;
+    transition: 0.3s ease;
+}
+
+/* Hover effect - subtle background */
+.nav-link:hover {
+    background: #f5f5f5;
+    color: #000;
+}
+
+/* Underline indicator (animation) */
+.nav-link .underline {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 0;
+    background: #000;
+    transition: 0.3s ease;
+    border-radius: 10px;
+}
+
+/* Hover underline */
+.nav-link:hover .underline {
+    width: 18px;
+}
+
+/* Active link */
+.nav-link.active {
+    color: #000;
+    font-weight: 600;
+    background: #efefef;
+}
+
+.nav-link.active .underline {
+    width: 22px;
+    background: #000;
+}
+
+/* Divider between items */
+.nav-link:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    right: -4px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 18px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, #ccc, transparent);
+}
+
+
+.right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.register a {
+    display: flex;
+    padding: 10px 20px;
+    border: 1.5px solid #000;
+    border-radius: 10px;
+    background-color: #fff;
+    color: #000;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+}
+
+.register a:hover {
+    background-color: black;
+    color: white;
+}
+
+.register a:hover::before {
+    left: 100%;
+}
+
+.login {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #000 0%, #333 100%);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.login:hover::before {
+    left: 100%;
+}
+
+.login:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login svg {
+    fill: #fff;
+    transition: transform 0.3s ease;
+}
+
+.login:hover svg {
+    transform: translateX(2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .topbar {
+        padding: 15px 30px;
+    }
+
+    .navbar {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .nav-link {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .topbar {
+        flex-direction: column;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .navbar {
+        width: 100%;
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    .nav-container {
+        justify-content: center;
+    }
+
+    .nav-link {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .right {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .nav-link {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .nav-link:not(:last-child)::after {
+        display: none;
+    }
+}
+
+footer {
+    background-color: #d8dee7;
+    color: #111;
+    padding: 20px 40px;
+    font-family: "MyFont", sans-serif;
+    border-radius: 9px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin: 20px auto;
+    max-width: 1400px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.footer-left h3 {
+    font-weight: 700;
+    font-size: 1.2rem;
+    font-variation-settings: "wght" 700;
+    margin-bottom: 5px;
+}
+
+.footer-left p {
+    font-weight: 400;
+    font-variation-settings: "wght" 400;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.footer-right a {
+    margin-left: 20px;
+    color: #111;
+    text-decoration: none;
+    font-weight: 500;
+    font-variation-settings: "wght" 500;
+    transition: color 0.2s;
+}
+
+.footer-right a:first-child {
+    margin-left: 0;
+}
+
+.footer-right a:hover {
+    color: #111;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-right a {
+        margin: 0 10px;
+        display: inline-block;
+        margin-top: 8px;
+    }
+}
+
+.logout-form {
+    display: inline;
+}
+
+.logout-btn {
+    background: #ff4d4d;
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.logout-btn:hover {
+    background: #e64545;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar-wrapper {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+

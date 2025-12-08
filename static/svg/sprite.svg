@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" >
+    <symbol id="mail-icon" viewBox="0 0 32 32"><path fill="#currentColor" d="M28 6H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h24a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2Zm-2.2 2L16 14.78L6.2 8ZM4 24V8.91l11.43 7.91a1 1 0 0 0 1.14 0L28 8.91V24Z"/></symbol>
+
+    <symbol id="phone-icon" viewBox="0 0 26 26">
+        <path fill="currentColor" d="M22.386 18.026c-1.548-1.324-3.119-2.126-4.648-.804l-.913.799c-.668.58-1.91 3.29-6.712-2.234c-4.801-5.517-1.944-6.376-1.275-6.951l.918-.8c1.521-1.325.947-2.993-.15-4.71l-.662-1.04C7.842.573 6.642-.552 5.117.771l-.824.72c-.674.491-2.558 2.087-3.015 5.119c-.55 3.638 1.185 7.804 5.16 12.375c3.97 4.573 7.857 6.87 11.539 6.83c3.06-.033 4.908-1.675 5.486-2.272l.827-.721c1.521-1.322.576-2.668-.973-3.995l-.931-.801z"/>
+    </symbol>
+
+    <symbol id="cart-icon" viewBox="0 0 48 48" fill="#currentColor"><g fill="#currentColor" stroke="#ffffff" stroke-width="4"><path stroke-linejoin="round" d="M6 15h36l-2 27H8L6 15Z" clip-rule="evenodd"/><path stroke-linecap="round" stroke-linejoin="round" d="M16 19V6h16v13"/><path stroke-linecap="round" d="M16 34h16"/></g></symbol>
+</svg>

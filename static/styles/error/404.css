@@ -1,0 +1,111 @@
+svg {
+  visibility: visible;
+}
+
+/* Head stripe bob */
+@keyframes headStripeAnim {
+  0%, 100% { transform: translateY(0); rotate: 0deg; }
+  50% { transform: translateY(0.5px) rotate(1deg); }
+}
+#headStripe {
+  animation: headStripeAnim 1s ease-in-out infinite;
+}
+
+/* Spaceman bob */
+@keyframes spacemanAnim {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(0.5px) rotate(1deg); }
+}
+#spaceman {
+  animation: spacemanAnim 1s ease-in-out infinite;
+}
+
+/* Small crater */
+@keyframes craterSmallAnim {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-3px); }
+}
+#craterSmall {
+  animation: craterSmallAnim 1s ease-in-out infinite;
+}
+
+/* Big crater */
+@keyframes craterBigAnim {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+#craterBig {
+  animation: craterBigAnim 1s ease-in-out infinite;
+}
+
+/* Planet rotation wobble */
+@keyframes planetAnim {
+  0%, 100% { transform: rotate(0deg); transform-origin: 50% 50%; }
+  50% { transform: rotate(-2deg); transform-origin: 50% 50%; }
+}
+#planet {
+  animation: planetAnim 1s ease-in-out infinite;
+}
+
+/* Big stars random rotation (CSS can't generate random values, so give a subtle wobble) */
+@keyframes starsBigAnim {
+  0%, 100% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+}
+#starsBig g {
+  animation: starsBigAnim 2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Small stars scale pulse */
+@keyframes starsSmallAnim {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1); }
+}
+#starsSmall g {
+  animation: starsSmallAnim 1.2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Small circles float */
+@keyframes circlesSmallAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+#circlesSmall circle {
+  animation: circlesSmallAnim 1s ease-in-out infinite;
+}
+
+/* Big circles float */
+@keyframes circlesBigAnim {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+#circlesBig circle {
+  animation: circlesBigAnim 1s ease-in-out infinite;
+}
+
+/* Glass Shine */
+@keyframes shineAnim {
+  0% { transform: translateX(-68px) rotate(0deg); }
+  40% { transform: translateX(80px) rotate(-30deg); }
+  100% { transform: translateX(-68px) rotate(0deg); }
+}
+#glassShine {
+  animation: shineAnim 10s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+
+/* Burger Menu CSS Toggle (using data-state) */
+.burger[data-state="open"] {
+  /* Add open animation if you want */
+}
+
+nav[data-state="open"] {
+  transform: translateX(0);
+}
+
+nav[data-state="closed"] {
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}

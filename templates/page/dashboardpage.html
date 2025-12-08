@@ -1,0 +1,55 @@
+{% extends "/layout/layout.html" %}
+
+{% block style %}
+    <link rel="stylesheet" href="/static/styles/dashboardpage.css">
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-image-wrapper">
+            <img id="profilePreview" src="/static/avatars/{{ user.avatar }}" alt="Profile Image">
+            <input type="file" id="profileImage" name="profile" accept="image/*" style="display: none;">
+            <button class="change-profile-btn" onclick="document.getElementById('profileImage').click()">
+                Change Profile
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("profileImage").addEventListener("change", function (event) {
+        const img = document.getElementById("profilePreview");
+        img.src = URL.createObjectURL(event.target.files[0]);
+    });
+
+    document.getElementById("updateProfileForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const formData = new FormData();
+        const imageFile = document.getElementById("profileImage").files[0];
+
+        if (imageFile) {
+            formData.append("profile", imageFile);
+        }
+
+        const response = await fetch(`/user-profile`, {
+            method: "POST",
+            body: formData,
+            credentials: "include"
+        });
+
+        const data = await response.json();
+        console.log(data);
+
+        if (response.ok) {
+            alert("Profile updated successfully");
+            location.reload();
+        } else {
+            alert("Failed: " + data.message);
+        }
+    });
+</script>
+
+{% endblock %}
