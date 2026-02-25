@@ -4,6 +4,8 @@ from routes.front.contact import *
 from routes.front.login import *
 from routes.front.register import *
 from routes.front.dashboard import *
+from routes.front.cart import *
+from routes.front.checkout import *
 
 from routes.admin.users import *
 from routes.admin.auth import *

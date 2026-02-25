@@ -8,13 +8,20 @@
 
 <div class="profile-container">
     <div class="profile-card">
-        <div class="profile-image-wrapper">
-            <img id="profilePreview" src="/static/avatars/{{ user.avatar }}" alt="Profile Image">
-            <input type="file" id="profileImage" name="profile" accept="image/*" style="display: none;">
-            <button class="change-profile-btn" onclick="document.getElementById('profileImage').click()">
-                Change Profile
-            </button>
-        </div>
+        <form id="updateProfileForm">
+            <div class="profile-image-wrapper">
+                <img id="profilePreview" src="/static/avatars/{{ user.avatar }}" alt="Profile Image">
+                <input type="file" id="profileImage" name="profile" accept="image/*" style="display: none;">
+
+                <button class="change-profile-btn" type="button" onclick="document.getElementById('profileImage').click()">
+                    Change Profile
+                </button>
+
+                <button class="save-profile-btn" type="submit">
+                    Save Profile
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -44,10 +51,10 @@
         console.log(data);
 
         if (response.ok) {
-            alert("Profile updated successfully");
-            location.reload();
+            window.showAlertModal?.("Profile updated successfully", { type: "success", duration: 2000 });
+            setTimeout(() => location.reload(), 2000);
         } else {
-            alert("Failed: " + data.message);
+            window.showAlertModal?.("Failed: " + (data.message || "Unknown error"), { type: "error", duration: 2000 });
         }
     });
 </script>

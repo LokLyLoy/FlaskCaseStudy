@@ -50,6 +50,33 @@
     background: #333;
 }
 
+.save-profile-btn {
+    margin-top: 12px;
+    padding: 12px 24px;
+    border: 1px solid #111;
+    border-radius: 8px;
+    background: #fff;
+    color: #111;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.3s ease, color 0.3s ease, transform 0.15s ease;
+}
+
+.save-profile-btn:hover {
+    background: #111;
+    color: #fff;
+}
+
+.save-profile-btn:active {
+    transform: scale(0.98);
+}
+
+.save-profile-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .profile-card {
@@ -60,6 +87,11 @@
         height: 130px;
     }
     .change-profile-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+
+    .save-profile-btn {
         padding: 10px 20px;
         font-size: 14px;
     }

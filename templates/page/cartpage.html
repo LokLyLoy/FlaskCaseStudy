@@ -1,0 +1,190 @@
+{% extends "/layout/layout.html" %}
+
+{% block style %}
+	<link rel="stylesheet" href="../../static/styles/cartpage.css">
+{% endblock %}
+
+{% block content %}
+	<main class="cart-main">
+		<div class="cart-container">
+			<h1 class="cart-title">Shopping Cart</h1>
+			
+			<div class="cart-wrapper">
+				<!-- Cart Items Section -->
+				<div class="cart-items-section">
+					<div id="cart-items-container">
+						<!-- Cart items will be dynamically inserted here -->
+					</div>
+					
+					<!-- Empty Cart Message -->
+					<div id="empty-cart" class="empty-cart" style="display: none;">
+						<div class="empty-cart-icon">
+							<svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M7 4V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V4H20C20.5523 4 21 4.44772 21 5C21 5.55228 20.5523 6 20 6H19V19C19 20.6569 17.6569 22 16 22H8C6.34315 22 5 20.6569 5 19V6H4C3.44772 6 3 5.55228 3 5C3 4.44772 3.44772 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19C7 19.5523 7.44772 20 8 20H16C16.5523 20 17 19.5523 17 19V6H7Z" fill="#ccc"/>
+							</svg>
+						</div>
+						<h2>Your cart is empty</h2>
+						<p>Looks like you haven't added anything to your cart yet.</p>
+						<a href="/" class="continue-shopping-btn">Continue Shopping</a>
+					</div>
+				</div>
+				
+				<!-- Cart Summary Section -->
+				<div class="cart-summary-section">
+					<div class="summary-card">
+						<h2 class="summary-title">Order Summary</h2>
+						
+						<div class="summary-details">
+							<div class="summary-row">
+								<span>Subtotal</span>
+								<span id="subtotal">$0.00</span>
+							</div>
+							<div class="summary-row">
+								<span>Shipping</span>
+								<span id="shipping">$10.00</span>
+							</div>
+							<div class="summary-row">
+								<span>Tax</span>
+								<span id="tax">$0.00</span>
+							</div>
+							<div class="summary-divider"></div>
+							<div class="summary-row total-row">
+								<span>Total</span>
+								<span id="total">$0.00</span>
+							</div>
+						</div>
+						
+						<button id="checkout-btn" class="checkout-btn" disabled>
+							Proceed to Checkout
+						</button>
+						
+						<a href="/" class="continue-shopping-link">Continue Shopping</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const cartItemsContainer = document.getElementById('cart-items-container');
+			const emptyCart = document.getElementById('empty-cart');
+			const checkoutBtn = document.getElementById('checkout-btn');
+			
+			// Load cart from localStorage
+			function loadCart() {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				
+				if (cart.length === 0) {
+					emptyCart.style.display = 'flex';
+					cartItemsContainer.innerHTML = '';
+					checkoutBtn.disabled = true;
+					updateSummary([]);
+					return;
+				}
+				
+				emptyCart.style.display = 'none';
+				checkoutBtn.disabled = false;
+				
+				// Render cart items
+				cartItemsContainer.innerHTML = cart.map((item, index) => `
+					<div class="cart-item" data-product-id="${item.id}">
+						<div class="item-image">
+							<img src="${item.image}" alt="${item.name}" onerror="this.src='/static/images/Logo.jpg'">
+						</div>
+						
+						<div class="item-details">
+							<h3 class="item-name">${item.name}</h3>
+							<p class="item-category">${item.category}</p>
+							<div class="item-price-row">
+								<span class="item-price">$${item.price.toFixed(2)}</span>
+								<span class="item-total">Total: $${(item.price * item.quantity).toFixed(2)}</span>
+							</div>
+						</div>
+						
+						<div class="item-controls">
+							<div class="qty-controls">
+								<button class="qty-btn minus" type="button" onclick="updateQuantity(${index}, -1)">−</button>
+								<input type="number" class="qty-input" min="1" value="${item.quantity}" 
+									onchange="updateQuantityInput(${index}, this.value)" 
+									onkeydown="if(event.key === 'Enter') updateQuantityInput(${index}, this.value)">
+								<button class="qty-btn plus" type="button" onclick="updateQuantity(${index}, 1)">+</button>
+							</div>
+							
+							<button class="remove-btn" type="button" onclick="removeItem(${index})" title="Remove item">
+								<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+								</svg>
+							</button>
+						</div>
+					</div>
+				`).join('');
+				
+				updateSummary(cart);
+			}
+			
+			// Helper function to dispatch cart update event
+			function dispatchCartUpdate() {
+				window.dispatchEvent(new CustomEvent('cartUpdated'));
+			}
+			
+			// Update quantity
+			window.updateQuantity = function(index, change) {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				if (cart[index]) {
+					cart[index].quantity = Math.max(1, cart[index].quantity + change);
+					localStorage.setItem('cart', JSON.stringify(cart));
+					loadCart();
+					dispatchCartUpdate();
+				}
+			};
+			
+			// Update quantity from input
+			window.updateQuantityInput = function(index, value) {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				if (cart[index]) {
+					const qty = parseInt(value) || 1;
+					cart[index].quantity = Math.max(1, qty);
+					localStorage.setItem('cart', JSON.stringify(cart));
+					loadCart();
+					dispatchCartUpdate();
+				}
+			};
+			
+			// Remove item
+			window.removeItem = function(index) {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				if (confirm('Are you sure you want to remove this item from your cart?')) {
+					cart.splice(index, 1);
+					localStorage.setItem('cart', JSON.stringify(cart));
+					loadCart();
+					dispatchCartUpdate();
+				}
+			};
+			
+			// Update summary
+			function updateSummary(cart) {
+				const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+				const shipping = subtotal > 0 ? 10.00 : 0;
+				const tax = subtotal * 0.1; // 10% tax
+				const total = subtotal + shipping + tax;
+				
+				document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+				document.getElementById('shipping').textContent = subtotal > 0 ? `$${shipping.toFixed(2)}` : 'Free';
+				document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+				document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+			}
+			
+			// Checkout button handler
+			checkoutBtn.addEventListener('click', () => {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				if (cart.length > 0) {
+					window.location.href = '/checkout';
+				}
+			});
+			
+			// Initial load
+			loadCart();
+		});
+	</script>
+{% endblock %}

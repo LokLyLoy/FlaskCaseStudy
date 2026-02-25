@@ -5,6 +5,10 @@ from flask_migrate import Migrate
 from sqlalchemy import create_engine, text
 from flask_sqlalchemy import SQLAlchemy
 from flask_jwt_extended import JWTManager,verify_jwt_in_request, get_jwt_identity
+from dotenv import load_dotenv
+import requests
+
+load_dotenv()
 
 app = Flask(__name__)
 

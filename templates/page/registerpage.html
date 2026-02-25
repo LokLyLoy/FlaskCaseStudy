@@ -8,6 +8,18 @@
     <link rel="icon" href="/static/images/Logo.jpg">
 </head>
 <body>
+    <!-- Alert Modal (replaces JS alert()) -->
+    <div id="alert-modal" class="alert-modal" aria-hidden="true">
+        <div class="alert-modal__backdrop" data-alert-close></div>
+        <div class="alert-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="alert-modal-title">
+            <button class="alert-modal__close" type="button" aria-label="Close" data-alert-close>&times;</button>
+            <div class="alert-modal__content">
+                <div id="alert-modal-title" class="alert-modal__title">Notification</div>
+                <div id="alert-modal-message" class="alert-modal__message"></div>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Left Image Panel -->
         <div class="container-left">
@@ -51,6 +63,54 @@
     </div>
 
 <script>
+    (function () {
+        const modal = document.getElementById('alert-modal');
+        const messageEl = document.getElementById('alert-modal-message');
+        let timerId = null;
+
+        function close() {
+            if (!modal) return;
+            if (timerId) {
+                clearTimeout(timerId);
+                timerId = null;
+            }
+            modal.classList.remove('is-open', 'is-success', 'is-error', 'is-warning', 'is-info');
+            modal.setAttribute('aria-hidden', 'true');
+        }
+
+        window.showAlertModal = function (message, options) {
+            if (!modal || !messageEl) {
+                // eslint-disable-next-line no-alert
+                alert(String(message ?? ''));
+                return;
+            }
+            const opts = options || {};
+            const type = (opts.type || 'info').toLowerCase();
+            const duration = typeof opts.duration === 'number' ? opts.duration : 2000;
+
+            modal.classList.remove('is-success', 'is-error', 'is-warning', 'is-info');
+            if (type === 'success') modal.classList.add('is-success');
+            else if (type === 'error') modal.classList.add('is-error');
+            else if (type === 'warning') modal.classList.add('is-warning');
+            else modal.classList.add('is-info');
+
+            messageEl.textContent = String(message ?? '');
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+
+            if (timerId) clearTimeout(timerId);
+            timerId = setTimeout(close, Math.max(0, duration));
+        };
+
+        document.addEventListener('click', (e) => {
+            const target = e.target;
+            if (target && target.matches && target.matches('[data-alert-close]')) close();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') close();
+        });
+    })();
+
     document.getElementById("registerForm").addEventListener("submit", async function (e) {
         e.preventDefault()
 
@@ -64,6 +124,7 @@
         }
 
         if (password !== confirm_password){
+            window.showAlertModal("Passwords do not match.", { type: "warning", duration: 2000 });
             return;
         }
 
@@ -83,10 +144,10 @@
             if (res.ok) {
                     window.location.href = "/dashboard";
                 } else {
-                    alert(result.error || "Register failed");
+                    window.showAlertModal(result.error || "Register failed", { type: "error", duration: 2000 });
                 }
         } catch (e) {
-            alert("Network error");
+            window.showAlertModal("Network error", { type: "error", duration: 2000 });
         }
     })
 </script>

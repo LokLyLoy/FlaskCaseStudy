@@ -1,0 +1,244 @@
+{% extends "/layout/layout.html" %}
+
+{% block style %}
+	<link rel="stylesheet" href="../../static/styles/checkout.css">
+{% endblock %}
+
+{% block content %}
+	<main class="checkout-main">
+		<div class="checkout-container">
+			<h1 class="checkout-title">Checkout</h1>
+			
+			<!-- Empty Cart Warning -->
+			<div id="empty-cart-warning" class="empty-cart-warning" style="display: none;">
+				<div class="warning-content">
+					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="#ff9800"/>
+					</svg>
+					<div>
+						<h2>Your cart is empty</h2>
+						<p>Please add items to your cart before proceeding to checkout.</p>
+						<a href="/cart" class="back-to-cart-btn">Go to Cart</a>
+					</div>
+				</div>
+			</div>
+			
+			<div class="checkout-wrapper" id="checkout-wrapper">
+				<!-- Checkout Form Section -->
+				<div class="checkout-form-section">
+					<div class="form-card">
+						<h2 class="form-section-title">Shipping Information</h2>
+						
+						<form id="checkout-form" class="checkout-form">
+							<div class="form-group">
+								<label for="name">Full Name</label>
+								<input type="text" id="name" name="name" placeholder="Enter your name" required>
+							</div>
+
+							<div class="form-group">
+								<label for="email">Email</label>
+								<input type="email" id="email" name="email" placeholder="Enter your email" required>
+							</div>
+
+							<div class="form-group">
+								<label for="phone">Phone Number</label>
+								<input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+							</div>
+
+							<div class="form-group">
+								<label for="address">Shipping Address</label>
+								<textarea id="address" name="address" placeholder="Enter your address" required></textarea>
+							</div>
+
+							<button type="submit" class="submit-order">Place Order</button>
+						</form>
+					</div>
+				</div>
+				
+				<!-- Order Summary Section -->
+				<div class="order-summary-section">
+					<div class="summary-card">
+						<h2 class="summary-title">Order Summary</h2>
+						
+						<!-- Cart Items Preview -->
+						<div class="cart-items-preview" id="cart-items-preview">
+							<!-- Cart items will be dynamically inserted here -->
+						</div>
+						
+						<div class="summary-divider"></div>
+						
+						<!-- Order Totals -->
+						<div class="summary-details">
+							<div class="summary-row">
+								<span>Subtotal</span>
+								<span id="subtotal">$0.00</span>
+							</div>
+							<div class="summary-row">
+								<span>Shipping</span>
+								<span id="shipping">$10.00</span>
+							</div>
+							<div class="summary-row">
+								<span>Tax</span>
+								<span id="tax">$0.00</span>
+							</div>
+							<div class="summary-divider"></div>
+							<div class="summary-row total-row">
+								<span>Total</span>
+								<span id="total">$0.00</span>
+							</div>
+						</div>
+						
+						<a href="/cart" class="edit-cart-link">Edit Cart</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const checkoutWrapper = document.getElementById('checkout-wrapper');
+			const emptyCartWarning = document.getElementById('empty-cart-warning');
+			const cartItemsPreview = document.getElementById('cart-items-preview');
+			const checkoutForm = document.getElementById('checkout-form');
+			
+			// Load cart from localStorage
+			function loadCart() {
+				const cart = JSON.parse(localStorage.getItem('cart')) || [];
+				
+				if (cart.length === 0) {
+					checkoutWrapper.style.display = 'none';
+					emptyCartWarning.style.display = 'block';
+					return;
+				}
+				
+				emptyCartWarning.style.display = 'none';
+				checkoutWrapper.style.display = 'grid';
+				
+				// Render cart items preview
+				cartItemsPreview.innerHTML = cart.map(item => `
+					<div class="preview-item">
+						<div class="preview-item-image">
+							<img src="${item.image}" alt="${item.name}" onerror="this.src='/static/images/Logo.jpg'">
+						</div>
+						<div class="preview-item-details">
+							<h4 class="preview-item-name">${item.name}</h4>
+							<div class="preview-item-info">
+								<span class="preview-item-qty">Qty: ${item.quantity}</span>
+								<span class="preview-item-price">$${(item.price * item.quantity).toFixed(2)}</span>
+							</div>
+						</div>
+					</div>
+				`).join('');
+				
+				// Update summary
+				updateSummary(cart);
+			}
+			
+			// Update summary totals
+			function updateSummary(cart) {
+				const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+				const shipping = subtotal > 0 ? 10.00 : 0;
+				const tax = subtotal * 0.1; // 10% tax
+				const total = subtotal + shipping + tax;
+				
+				document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+				document.getElementById('shipping').textContent = subtotal > 0 ? `$${shipping.toFixed(2)}` : 'Free';
+				document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+				document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+			}
+			
+			// Form submission handler
+			checkoutForm.addEventListener('submit', (e) => {
+				e.preventDefault();
+				
+				// Get form data
+				const formData = {
+					name: document.getElementById('name').value.trim(),
+					email: document.getElementById('email').value.trim(),
+					phone: document.getElementById('phone').value.trim(),
+					address: document.getElementById('address').value.trim(),
+					cart: JSON.parse(localStorage.getItem('cart')) || []
+				};
+				
+				// Validate form
+				if (!formData.name || !formData.email || !formData.phone || !formData.address) {
+					window.showAlertModal?.('Please fill in all required fields.', { type: 'warning', duration: 2000 });
+					return;
+				}
+				
+				// Validate email format
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				if (!emailRegex.test(formData.email)) {
+					window.showAlertModal?.('Please enter a valid email address.', { type: 'warning', duration: 2000 });
+					return;
+				}
+				
+				// Validate phone (basic validation)
+				const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+				if (!phoneRegex.test(formData.phone) || formData.phone.replace(/\D/g, '').length < 10) {
+					window.showAlertModal?.('Please enter a valid phone number.', { type: 'warning', duration: 2000 });
+					return;
+				}
+				
+				// Check if cart is empty
+				if (formData.cart.length === 0) {
+					window.showAlertModal?.('Your cart is empty. Please add items before placing an order.', { type: 'warning', duration: 2000 });
+					return;
+				}
+				
+				// Disable submit button to prevent double submission
+				const submitBtn = checkoutForm.querySelector('.submit-order');
+				submitBtn.disabled = true;
+				submitBtn.textContent = 'Processing...';
+
+				// Send to backend endpoint (triggers Telegram alert)
+				fetch('/api/checkout', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(formData)
+				})
+				.then(response => response.json())
+				.then(data => {
+					if (data.success) {
+						localStorage.setItem('cart', JSON.stringify([]));
+						window.dispatchEvent(new CustomEvent('cartUpdated'));
+						window.showAlertModal?.(
+							`Order placed successfully!${data.order_id ? ` Order ID: ${data.order_id}` : ''}`,
+							{ type: 'success', duration: 2000 }
+						);
+						setTimeout(() => {
+							window.location.href = '/';
+						}, 2000);
+					} else {
+						window.showAlertModal?.(data.error || 'Order failed. Please try again.', { type: 'error', duration: 2000 });
+						submitBtn.disabled = false;
+						submitBtn.textContent = 'Place Order';
+					}
+				})
+				.catch(error => {
+					console.error('Error:', error);
+					window.showAlertModal?.('An error occurred. Please try again.', { type: 'error', duration: 2000 });
+					submitBtn.disabled = false;
+					submitBtn.textContent = 'Place Order';
+				});
+			});
+			
+			// Initial load
+			loadCart();
+			
+			// Listen for cart updates
+			window.addEventListener('storage', function (e) {
+				if (e.key === 'cart') {
+					loadCart();
+				}
+			});
+			
+			window.addEventListener('cartUpdated', function () {
+				loadCart();
+			});
+		});
+	</script>
+{% endblock %}

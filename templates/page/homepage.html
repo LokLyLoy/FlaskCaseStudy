@@ -54,7 +54,7 @@
             <h2>Products List</h2>
             <div class="product-grid">
                 {% for product in products %}
-                <div class="product-card">
+                <div class="product-card" data-product-id="{{ product.id }}">
 
                     <!-- Product Image -->
                     <div class="product-img-box">
@@ -70,13 +70,13 @@
                         <span class="price">${{ product.price }}</span>
 
                         <div class="qty-box">
-                            <button class="qty-btn minus">−</button>
-                                <input type="number" class="qty-input" min="1" value="1">
-                            <button class="qty-btn plus">+</button>
+                            <button class="qty-btn minus" type="button">−</button>
+                                <input type="text" class="qty-input" min="1" value="1">
+                            <button class="qty-btn plus" type="button">+</button>
                         </div>
                     </div>
 
-                    <button class="add-btn">
+                    <button class="add-btn" type="button">
                         <svg width="22px" height="22px">
                             <use href="/static/svg/sprite.svg#cart-icon"></use>
                         </svg>
@@ -86,27 +86,161 @@
                 </div>
                 {% endfor %}
             </div>
-
-
         </div>
 
     </main>
 
     <script>
-        document.querySelectorAll(".product-card").forEach(card => {
-            const minus = card.querySelector(".minus");
-            const plus = card.querySelector(".plus");
-            const input = card.querySelector(".qty-input");
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize cart if it doesn't exist
+            if (!localStorage.getItem('cart')) {
+                localStorage.setItem('cart', JSON.stringify([]));
+            }
 
-            minus.addEventListener("click", () => {
-                let val = parseInt(input.value);
-                if (val > 1) input.value = val - 1;
+            // Add event listeners to all product cards
+            document.querySelectorAll(".product-card").forEach(card => {
+                const minus = card.querySelector(".minus");
+                const plus = card.querySelector(".plus");
+                const qtyInput = card.querySelector(".qty-input");
+                const addBtn = card.querySelector(".add-btn");
+
+                // Minus button
+                minus.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    let val = parseInt(qtyInput.value);
+                    if (!isNaN(val) && val > 1) {
+                        qtyInput.value = val - 1;
+                    }
+                });
+
+                // Plus button
+                plus.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    let val = parseInt(qtyInput.value);
+                    if (!isNaN(val)) {
+                        qtyInput.value = val + 1;
+                    } else {
+                        qtyInput.value = 1;
+                    }
+                });
+
+                // Add to cart button
+                addBtn.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    addToCart(card);
+                });
             });
 
-            plus.addEventListener("click", () => {
-                let val = parseInt(input.value);
-                input.value = val + 1;
-            });
+            function addToCart(card) {
+                // Get product data from the card
+                const productId = card.dataset.productId;
+
+                // Get product name
+                const nameElement = card.querySelector(".product-name");
+                const name = nameElement ? nameElement.textContent.trim() : "Unknown Product";
+
+                // Get price (remove $ sign)
+                const priceElement = card.querySelector(".price");
+                const priceText = priceElement ? priceElement.textContent : "$0";
+                const price = parseFloat(priceText.replace('$', '')) || 0;
+
+                // Get image
+                const imageElement = card.querySelector(".product-img-box img");
+                const image = imageElement ? imageElement.src : "";
+
+                // Get quantity
+                const qtyInput = card.querySelector(".qty-input");
+                let quantity = 1;
+                if (qtyInput) {
+                    const qtyValue = parseInt(qtyInput.value);
+                    quantity = isNaN(qtyValue) || qtyValue < 1 ? 1 : qtyValue;
+                }
+
+                // Get category
+                const categoryElement = card.querySelector(".product-category");
+                const category = categoryElement ? categoryElement.textContent.trim() : "";
+
+                // Get description
+                const descriptionElement = card.querySelector(".product-description");
+                const description = descriptionElement ? descriptionElement.textContent.trim() : "";
+
+                // Get current cart from localStorage
+                let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+                // Check if product already exists in cart
+                const existingProductIndex = cart.findIndex(item => item.id === productId);
+
+                if (existingProductIndex !== -1) {
+                    // Update quantity if product exists
+                    cart[existingProductIndex].quantity += quantity;
+                } else {
+                    // Add new product to cart
+                    cart.push({
+                        id: productId,
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: quantity,
+                        category: category,
+                        description: description
+                    });
+                }
+
+                // Save cart back to localStorage
+                localStorage.setItem("cart", JSON.stringify(cart));
+
+                // Show visual feedback
+                showFeedback(card);
+
+                // Update cart count in header
+                updateCartCount();
+                
+                // Dispatch cart update event for layout
+                window.dispatchEvent(new CustomEvent('cartUpdated'));
+            }
+
+            function showFeedback(card) {
+                const btn = card.querySelector(".add-btn");
+                const originalHTML = btn.innerHTML;
+                const originalBgColor = btn.style.backgroundColor;
+
+                // Change button to show "ADDED!"
+                btn.innerHTML = `
+                    <svg width="22px" height="22px">
+                        <use href="/static/svg/sprite.svg#cart-icon"></use>
+                    </svg>
+                    ADDED!
+                `;
+                btn.style.backgroundColor = "#28a745";
+                btn.disabled = true;
+
+                // Reset button after 1.2 seconds
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.style.backgroundColor = originalBgColor;
+                    btn.disabled = false;
+                }, 1200);
+            }
+
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+
+                // Find the cart count badge in the header
+                const badge = document.querySelector(".cart-count");
+
+                if (badge) {
+                    badge.textContent = totalItems;
+                    if (totalItems > 0) {
+                        badge.style.display = "inline-flex";
+                    } else {
+                        badge.style.display = "none";
+                    }
+                }
+            }
+
+            // Initialize cart count on page load
+            updateCartCount();
         });
     </script>
 
