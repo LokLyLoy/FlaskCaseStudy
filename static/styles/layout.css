@@ -18,7 +18,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 40px;
+    padding: 8px 20px;
     max-width: 1400px;
     margin: auto;
 }
@@ -50,6 +50,8 @@ header {
     padding: 8px 14px;
     border-radius: 18px;
     backdrop-filter: blur(10px);
+    max-width: 100%;
+    overflow-x: auto;
 }
 
 /* Flex wrapper */
@@ -199,7 +201,7 @@ header {
 /* Responsive Design */
 @media (max-width: 1024px) {
     .topbar {
-        padding: 15px 30px;
+        padding: 12px 20px;
     }
 
     .navbar {

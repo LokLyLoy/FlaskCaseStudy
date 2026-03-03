@@ -4,6 +4,7 @@
     align-items: center;
     padding: 50px 20px;
     font-family: 'Segoe UI', sans-serif;
+    min-height: calc(100vh - 140px);
 }
 
 .profile-card {
@@ -12,6 +13,8 @@
     border-radius: 16px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     text-align: center;
+    max-width: 420px;
+    width: 100%;
 }
 
 .profile-image-wrapper {
@@ -78,9 +81,18 @@
 }
 
 /* Responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        padding: 32px 16px;
+    }
+    .profile-card {
+        padding: 32px 22px;
+    }
+}
+
 @media (max-width: 480px) {
     .profile-card {
-        padding: 30px 20px;
+        padding: 28px 18px;
     }
     .profile-image-wrapper img {
         width: 130px;

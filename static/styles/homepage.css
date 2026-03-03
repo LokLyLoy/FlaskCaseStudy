@@ -1,13 +1,20 @@
 main {
     margin-top: 10px;
     font-family: "MyFont", sans-serif;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 16px 32px;
 }
+
+/* ================= HERO SECTION ================= */
 
 .hero-banner {
     position: relative;
     width: 100%;
-    height: 500px;
-    border-radius: 20px;
+    height: 280px;
+    /* Mobile first */
+    border-radius: 16px;
     overflow: hidden;
 }
 
@@ -16,65 +23,57 @@ main {
     height: 100%;
     object-fit: cover;
     filter: brightness(60%);
-    border-radius: 20px;
     display: block;
 }
 
 .hero-text {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #fff;
+    inset: 0;
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    color: white;
 }
 
 .hero-text h1 {
-    font-size: 3rem;
-    font-weight: 700;
+    font-size: 22px;
     margin-bottom: 10px;
 }
 
 .hero-text p {
-    font-size: 1.2rem;
+    font-size: 14px;
     margin-bottom: 20px;
 }
 
+/* Button */
 .next-btn {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
+    background: white;
+    color: black;
+    padding: 12px 20px;
     border-radius: 50px;
-    background-color: white;
-    padding: 12px 30px;
-    width: fit-content;
-    cursor: pointer;
     text-decoration: none;
+    font-weight: 600;
+    width: 100%;
+    /* Full width on mobile */
+    max-width: 240px;
     transition: 0.3s ease;
 }
 
 .next-btn:hover {
-    background-color: black;
-}
-
-.shop-btn {
-    color: black;
-    font-family: "MyFont", sans-serif;
-    text-decoration: none;
-    transition: 0.3s ease;
-}
-
-.next-btn:hover .shop-btn {
+    background: black;
     color: white;
 }
 
 .icon-circle {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: black;
     border-radius: 50%;
     display: flex;
@@ -83,19 +82,58 @@ main {
     transition: 0.3s ease;
 }
 
+.icon-circle svg {
+    width: 14px;
+    height: 14px;
+    color: white;
+}
+
 .next-btn:hover .icon-circle {
     background: white;
 }
 
-.icon-circle svg {
-    color: white;
-    width: 16px;
-    height: 16px;
-    transition: 0.3s ease;
-}
-
 .next-btn:hover .icon-circle svg {
     color: black;
+}
+
+/* ================= TABLET ================= */
+
+@media (min-width: 768px) {
+
+    .hero-banner {
+        height: 380px;
+        border-radius: 20px;
+    }
+
+    .hero-text h1 {
+        font-size: 32px;
+    }
+
+    .hero-text p {
+        font-size: 16px;
+    }
+
+    .next-btn {
+        width: auto;
+        padding: 12px 30px;
+    }
+}
+
+/* ================= DESKTOP ================= */
+
+@media (min-width: 1024px) {
+
+    .hero-banner {
+        height: 480px;
+    }
+
+    .hero-text h1 {
+        font-size: 42px;
+    }
+
+    .hero-text p {
+        font-size: 18px;
+    }
 }
 
 .category {
@@ -103,16 +141,17 @@ main {
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    margin-top: 10px;
-    padding: 10px 30px;
+    margin-top: 16px;
+    padding: 10px 8px;
 }
 
-.category a{
+.category a {
     text-decoration: none;
 }
 
 .category-buttons {
     display: flex;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -137,13 +176,11 @@ main {
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    width: 70%;
-    gap: 30px;
-    margin: 10px auto 0;
+    width: 100%;
+    gap: 24px;
+    margin: 16px auto 0;
     border-bottom: 1px solid #ccc;
-    padding-bottom: 15px;
-
-
+    padding-bottom: 16px;
 }
 
 .category-item {
@@ -152,7 +189,7 @@ main {
     max-width: 100%;
 }
 
-.category-item:hover img{
+.category-item:hover img {
     transform: scale(1.03);
     filter: brightness(0.85);
     transition: transform 0.4s ease;
@@ -160,7 +197,7 @@ main {
 
 .category-item img {
     width: 100%;
-    height: 300px;
+    height: 260px;
     object-fit: cover;
     display: block;
     border-radius: 15px;
@@ -172,7 +209,7 @@ main {
     left: 50%;
     transform: translateX(-50%);
     padding: 8px 16px;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -182,11 +219,11 @@ main {
 }
 
 .category-btn-img:hover {
-    background-color: rgba(0,0,0,0.8);
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
-.products-container{
-    padding: 20px;
+.products-container {
+    padding: 24px 0 0;
 }
 
 /* Grid Layout */
@@ -201,7 +238,7 @@ main {
     background: #fff;
     border-radius: 18px;
     padding: 18px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     transition: 0.3s ease-in-out;
 }
 
@@ -241,7 +278,7 @@ main {
     font-size: 14px;
     color: #6b6b6b;
     margin: 10px 0 15px;
-    height: 40px;
+    max-height: 40px;
     overflow: hidden;
 }
 
@@ -275,7 +312,7 @@ main {
     background: #0d244f;
 }
 
-.add-btn svg{
+.add-btn svg {
     fill: transparent;
 
 }
@@ -319,5 +356,80 @@ main {
     border-radius: 6px;
 }
 
+/* Responsive layout */
+@media (max-width: 1024px) {
+    .hero-banner {
+        height: 400px;
+    }
 
+    .category {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 0;
+    }
 
+    .category-section {
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 0 12px 24px;
+    }
+
+    .hero-banner {
+        height: 360px;
+        border-radius: 16px;
+    }
+
+    .hero-text {
+        padding: 0 16px;
+    }
+
+    .category-section {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .category-item {
+        width: 100%;
+        max-width: 380px;
+    }
+
+    .product-card {
+        padding: 14px;
+    }
+
+    .product-img-box img {
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-banner {
+        height: 300px;
+    }
+
+    .next-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .category {
+        align-items: stretch;
+    }
+
+    .category-buttons {
+        width: 100%;
+    }
+
+    .category-btn {
+        flex: 1 1 auto;
+        text-align: center;
+    }
+
+    .products-container {
+        padding-top: 16px;
+    }
+}

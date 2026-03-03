@@ -4,10 +4,12 @@
     align-items: center;
     font-family: "MyFont", sans-serif;
     padding: 30px;
-    width: 80%;
+    width: 100%;
+    max-width: 1200px;
     margin: 20px auto 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     border-radius: 15px;
+    gap: 24px;
 }
 
 .container-left h2{
@@ -50,11 +52,12 @@
     align-items: stretch;
     margin-top: 20px;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .card {
-    flex: 1;
-    aspect-ratio: 1 / 1;
+    flex: 1 1 220px;
+    min-width: 0;
     border-radius: 18px;
     padding: 25px 20px;
     background: white;
@@ -84,4 +87,35 @@
 .card span {
     font-size: 15px;
     color: #555;
+}
+
+@media (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        padding: 24px 20px;
+    }
+
+    .container-left,
+    .container-right {
+        width: 100%;
+    }
+
+    .container-left h1 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 16px;
+        margin-top: 16px;
+    }
+
+    .grid-card {
+        flex-direction: column;
+    }
+
+    .card {
+        width: 100%;
+    }
 }
